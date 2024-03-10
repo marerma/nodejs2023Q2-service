@@ -5,5 +5,9 @@ export const DATA: IDatabase = {
   artists: [],
   tracks: [],
   albums: [],
-  favorites: [],
+  favorites: {
+    artists: [],
+    albums: [],
+    tracks: [],
+  },
 };

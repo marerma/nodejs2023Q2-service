@@ -11,7 +11,7 @@ import {
 import { AlbumsService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from './dto/album.dto';
 
-@Controller('artist')
+@Controller('album')
 export class AlbumsController {
   constructor(private albumsService: AlbumsService) {}
 
