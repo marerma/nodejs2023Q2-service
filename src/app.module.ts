@@ -5,6 +5,9 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { UsersModule } from './users/users.module';
+import { TracksController } from './tracks/tracks.controller';
+import { TracksService } from './tracks/tracks.service';
+import { TracksModule } from './tracks/tracks.module';
 
 @Module({
   imports: [
@@ -12,8 +15,9 @@ import { UsersModule } from './users/users.module';
       envFilePath: '.env',
     }),
     UsersModule,
+    TracksModule,
   ],
-  controllers: [AppController, UsersController],
-  providers: [AppService, UsersService],
+  controllers: [AppController, UsersController, TracksController],
+  providers: [AppService, UsersService, TracksService],
 })
 export class AppModule {}
