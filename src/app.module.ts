@@ -11,6 +11,9 @@ import { TracksModule } from './tracks/tracks.module';
 import { ArtistsController } from './artists/artists.controller';
 import { ArtistsModule } from './artists/artists.module';
 import { ArtistsService } from './artists/artists.service';
+import { AlbumsController } from './albums/album.controller';
+import { AlbumsModule } from './albums/album.module';
+import { AlbumsService } from './albums/album.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,13 +22,21 @@ import { ArtistsService } from './artists/artists.service';
     UsersModule,
     TracksModule,
     ArtistsModule,
+    AlbumsModule,
   ],
   controllers: [
     AppController,
     UsersController,
     TracksController,
     ArtistsController,
+    AlbumsController,
   ],
-  providers: [AppService, UsersService, TracksService, ArtistsService],
+  providers: [
+    AppService,
+    UsersService,
+    TracksService,
+    ArtistsService,
+    AlbumsService,
+  ],
 })
 export class AppModule {}

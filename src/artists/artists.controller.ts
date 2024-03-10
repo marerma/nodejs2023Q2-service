@@ -29,8 +29,8 @@ export class ArtistsController {
     return this.artistService.createArtist(trackDto);
   }
   @Put(':id')
-  updatePassword(@Param('id') id: string, @Body() dto: UpdateArtistDto) {
-    return this.artistService.updatePassword(id, dto);
+  updateArtist(@Param('id') id: string, @Body() dto: UpdateArtistDto) {
+    return this.artistService.updateArtist(id, dto);
   }
   @Delete(':id')
   @HttpCode(204)

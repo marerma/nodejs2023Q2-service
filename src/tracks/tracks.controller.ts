@@ -29,8 +29,8 @@ export class TracksController {
     return this.tracksService.createTrack(trackDto);
   }
   @Put(':id')
-  updatePassword(@Param('id') id: string, @Body() dto: UpdateTrackDto) {
-    return this.tracksService.updatePassword(id, dto);
+  updateTrack(@Param('id') id: string, @Body() dto: UpdateTrackDto) {
+    return this.tracksService.updateTrack(id, dto);
   }
   @Delete(':id')
   @HttpCode(204)

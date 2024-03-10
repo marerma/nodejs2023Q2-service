@@ -38,7 +38,7 @@ export class ArtistsService {
     return artist;
   }
 
-  async updatePassword(id: string, dto: UpdateArtistDto) {
+  async updateArtist(id: string, dto: UpdateArtistDto) {
     if (!validate(id)) {
       throw new BadRequestException('ID is not a valid UUID');
     }

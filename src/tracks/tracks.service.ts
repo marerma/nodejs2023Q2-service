@@ -40,7 +40,7 @@ export class TracksService {
     return track;
   }
 
-  async updatePassword(id: string, dto: UpdateTrackDto) {
+  async updateTrack(id: string, dto: UpdateTrackDto) {
     if (!validate(id)) {
       throw new BadRequestException('ID is not a valid UUID');
     }
