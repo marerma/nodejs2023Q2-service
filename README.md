@@ -1,4 +1,4 @@
-# Home Library Service
+# Home Library Service 1 week
 
 ## Prerequisites
 
@@ -8,7 +8,7 @@
 ## Downloading
 
 ```
-git clone {repository URL}
+git clone https://github.com/marerma/nodejs2023Q2-service.git
 ```
 
 ## Installing NPM modules
@@ -16,6 +16,9 @@ git clone {repository URL}
 ```
 npm install
 ```
+## Set .env file
+```
+Create .env file as an .env.example
 
 ## Running application
 
