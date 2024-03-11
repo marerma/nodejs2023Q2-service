@@ -1,4 +1,16 @@
-import { Controller, Delete, Get, HttpCode, Param, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  NotFoundException,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { FavoritesService } from './favorites.service';
 
 @Controller('favs')
@@ -15,8 +27,15 @@ export class FavoritesController {
   }
   @Delete('/track/:id')
   @HttpCode(204)
-  deleteTrack(@Param('id') id: string) {
-    return this.favService.deleteTrack(id);
+  deleteTrack(@Param('id') id: string, @Res() res) {
+    this.favService
+      .deleteTrack(id)
+      .then(() => res.status(HttpStatus.NO_CONTENT).send())
+      .catch((resp) => {
+        if (resp instanceof HttpException) {
+          res.status(resp.getStatus()).send();
+        }
+      });
   }
 
   @Post('/album/:id')
@@ -25,9 +44,15 @@ export class FavoritesController {
   }
 
   @Delete('/album/:id')
-  @HttpCode(204)
-  deleteAlbum(@Param('id') id: string) {
-    return this.favService.deleteAlbum(id);
+  deleteAlbum(@Param('id') id: string, @Res() res) {
+    this.favService
+      .deleteAlbum(id)
+      .then(() => res.status(HttpStatus.NO_CONTENT).send())
+      .catch((resp) => {
+        if (resp instanceof HttpException) {
+          res.status(resp.getStatus()).send();
+        }
+      });
   }
 
   @Post('/artist/:id')
@@ -37,7 +62,14 @@ export class FavoritesController {
 
   @Delete('/artist/:id')
   @HttpCode(204)
-  deleteArtist(@Param('id') id: string) {
-    return this.favService.deleteArtist(id);
+  deleteArtist(@Param('id') id: string, @Res() res) {
+    this.favService
+      .deleteArtist(id)
+      .then(() => res.status(HttpStatus.NO_CONTENT).send())
+      .catch((resp) => {
+        if (resp instanceof HttpException) {
+          res.status(resp.getStatus()).send();
+        }
+      });
   }
 }

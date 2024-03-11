@@ -4,9 +4,12 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
+  Res,
 } from '@nestjs/common';
 import { AlbumsService } from './album.service';
 import { CreateAlbumDto, UpdateAlbumDto } from './dto/album.dto';
@@ -33,8 +36,14 @@ export class AlbumsController {
     return this.albumsService.updateAlbum(id, dto);
   }
   @Delete(':id')
-  @HttpCode(204)
-  deleteAlbum(@Param('id') id: string) {
-    return this.albumsService.deleteAlbum(id);
+  deleteAlbum(@Param('id') id: string, @Res() res) {
+    this.albumsService
+      .deleteAlbum(id)
+      .then(() => res.status(HttpStatus.NO_CONTENT).send())
+      .catch((resp) => {
+        if (resp instanceof HttpException) {
+          res.status(resp.getStatus()).send();
+        }
+      });
   }
 }

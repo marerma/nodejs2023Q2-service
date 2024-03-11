@@ -4,9 +4,12 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
+  Res,
 } from '@nestjs/common';
 import { TracksService } from './tracks.service';
 import { CreateTrackDto, UpdateTrackDto } from './dto/track.dto';
@@ -33,8 +36,14 @@ export class TracksController {
     return this.tracksService.updateTrack(id, dto);
   }
   @Delete(':id')
-  @HttpCode(204)
-  deleteTrack(@Param('id') id: string) {
-    return this.tracksService.deleteTrack(id);
+  deleteTrack(@Param('id') id: string, @Res() res) {
+    return this.tracksService
+      .deleteTrack(id)
+      .then(() => res.status(HttpStatus.NO_CONTENT).send())
+      .catch((resp) => {
+        if (resp instanceof HttpException) {
+          res.status(resp.getStatus()).send();
+        }
+      });
   }
 }

@@ -7,10 +7,14 @@ import { DATA } from 'src/data-base';
 import { Track } from 'src/types/types';
 import { v4 as uuidv4, validate } from 'uuid';
 import { CreateTrackDto, UpdateTrackDto } from './dto/track.dto';
+import { validateTrackDto } from './utils';
 
 @Injectable()
 export class TracksService {
   async createTrack(dto: CreateTrackDto) {
+    if (!validateTrackDto(dto)) {
+      throw new BadRequestException('Provide all requiered fields');
+    }
     const id = uuidv4();
     const track: Track = {
       id,
@@ -43,6 +47,9 @@ export class TracksService {
   async updateTrack(id: string, dto: UpdateTrackDto) {
     if (!validate(id)) {
       throw new BadRequestException('ID is not a valid UUID');
+    }
+    if (!validateTrackDto(dto)) {
+      throw new BadRequestException('Provide all requiered fields');
     }
     const trackInd = await DATA.tracks.findIndex((u) => u.id === id);
     if (trackInd === -1) {

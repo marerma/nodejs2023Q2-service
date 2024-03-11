@@ -4,14 +4,17 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
+  Res,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, UpdatePasswordDto } from './dto/user.dto';
 
-@Controller('users')
+@Controller('user')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
@@ -33,8 +36,14 @@ export class UsersController {
     return this.usersService.updatePassword(id, dto);
   }
   @Delete(':id')
-  @HttpCode(204)
-  deleteUser(@Param('id') id: string) {
-    return this.usersService.deleteUser(id);
+  deleteUser(@Param('id') id: string, @Res() res) {
+    return this.usersService
+      .deleteUser(id)
+      .then(() => res.status(HttpStatus.NO_CONTENT).send())
+      .catch((resp) => {
+        if (resp instanceof HttpException) {
+          res.status(resp.getStatus()).send();
+        }
+      });
   }
 }

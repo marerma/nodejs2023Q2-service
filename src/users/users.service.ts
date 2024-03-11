@@ -8,13 +8,14 @@ import { User } from 'src/types/types';
 import { v4 as uuidv4, validate } from 'uuid';
 import { CreateUserDto, UpdatePasswordDto } from './dto/user.dto';
 import { DATA } from 'src/data-base';
+import { validatePasswordDto, validateUserDto } from './utils';
 
 @Injectable()
 export class UsersService {
   async createUser(dto: CreateUserDto) {
-    if (!dto.login || !dto.password) {
+    if (!validateUserDto(dto)) {
       throw new BadRequestException(
-        'Please provide all nessassary fields: login and password',
+        'Please provide all requiered fields: login and password',
       );
     }
     const id = uuidv4();
@@ -22,7 +23,7 @@ export class UsersService {
       id,
       login: dto.login,
       password: dto.password,
-      version: 0,
+      version: 1,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     };
@@ -55,6 +56,11 @@ export class UsersService {
     if (!validate(id)) {
       throw new BadRequestException('ID is not a valid UUID');
     }
+    if (!validatePasswordDto(dto)) {
+      throw new BadRequestException(
+        'Please provide all requiered fields: login and password',
+      );
+    }
     const userInd = await DATA.users.findIndex((u) => u.id === id);
     if (userInd === -1) {
       throw new NotFoundException('User with the provided id is not found');
@@ -67,7 +73,7 @@ export class UsersService {
       ...user,
       password: dto.newPassword,
       updatedAt: Date.now(),
-      version: user.version++,
+      version: (user.version += 1),
     };
     DATA.users[userInd] = updatedUser;
     const { password, ...userResp } = updatedUser;
@@ -84,5 +90,6 @@ export class UsersService {
       throw new NotFoundException('User with the provided id is not found');
     }
     await DATA.users.splice(userInd, 1);
+    return;
   }
 }

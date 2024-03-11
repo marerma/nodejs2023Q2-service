@@ -49,7 +49,7 @@ export class FavoritesService {
     const albumToAdd = DATA.albums.find((t) => t.id === id);
     if (!albumToAdd) {
       throw new UnprocessableEntityException(
-        'Album with the provided id is not found',
+        'Album with the provided id is not found add',
       );
     }
     await DATA.favorites.albums.push(id);
@@ -74,22 +74,23 @@ export class FavoritesService {
     if (!validate(id)) {
       throw new BadRequestException('ID is not a valid UUID');
     }
-    const albumInd = await DATA.albums.findIndex((u) => u.id === id);
+    const albumInd = await DATA.favorites.albums.findIndex((u) => u === id);
     if (albumInd === -1) {
-      throw new NotFoundException('Album with the provided id is not found');
+      throw new NotFoundException('Album with the provided id is not found 1');
     }
     for (const track of DATA.tracks) {
       if (track.albumId === id) {
         track.albumId = null;
       }
     }
-    await DATA.albums.splice(albumInd, 1);
+    await DATA.favorites.albums.splice(albumInd, 1);
+    return;
   }
   async deleteArtist(id: string) {
     if (!validate(id)) {
       throw new BadRequestException('ID is not a valid UUID');
     }
-    const artistInd = await DATA.artists.findIndex((u) => u.id === id);
+    const artistInd = await DATA.favorites.artists.findIndex((u) => u === id);
     if (artistInd === -1) {
       throw new NotFoundException('Artist with the provided id is not found');
     }
@@ -103,16 +104,16 @@ export class FavoritesService {
         track.artistId = null;
       }
     }
-    await DATA.artists.splice(artistInd, 1);
+    await DATA.favorites.artists.splice(artistInd, 1);
   }
   async deleteTrack(id: string) {
     if (!validate(id)) {
       throw new BadRequestException('ID is not a valid UUID');
     }
-    const trackInd = await DATA.tracks.findIndex((u) => u.id === id);
+    const trackInd = await DATA.favorites.tracks.findIndex((u) => u === id);
     if (trackInd === -1) {
       throw new NotFoundException('Track with the provided id is not found');
     }
-    await DATA.tracks.splice(trackInd, 1);
+    await DATA.favorites.tracks.splice(trackInd, 1);
   }
 }
